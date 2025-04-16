@@ -77,7 +77,8 @@ int login_make_quiz() {
                 sleep(1);
                 return 1;
             } else {
-                printf("Incorrect PIN. Attempts remaining: %d\n", MAX_LOGIN_ATTEMPTS - ++attempts);
+                // printf("Incorrect PIN. Attempts remaining: %d\n", MAX_LOGIN_ATTEMPTS - ++attempts);
+                printf("%sIncorrect PIN. Attempts remaining: %d%s\n", COLOR_RED, MAX_LOGIN_ATTEMPTS - ++attempts, COLOR_RESET);
                 sleep(1);
             }
         } else {
@@ -87,7 +88,7 @@ int login_make_quiz() {
         }
     }
 
-    printf("%sToo many failed login attempts. Returning to main menu.%s\n", COLOR_YELLOW, COLOR_RESET);
+    printf("%sToo many failed login attempts. Returning to main menu.%s\n", COLOR_RED, COLOR_RESET);
     sleep(2);
     return 0;
 }
