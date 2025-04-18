@@ -13,7 +13,8 @@ void make_quiz_menu() {
         printf("%s[2] %sEdit Existing Quizzes%s\n", COLOR_YELLOW, COLOR_CYAN, COLOR_RESET);
         printf("%s[3] %sChange PIN%s\n", COLOR_YELLOW, COLOR_CYAN, COLOR_RESET);
         printf("%s[4] %sBack to Main Menu%s\n\n", COLOR_YELLOW, COLOR_LIGHT_PURPLE, COLOR_RESET);
-        printf("Enter your choice: %s", COLOR_CYAN);
+        printf("%sEnter your choice:%s ", COLOR_CYAN, COLOR_RESET);
+        printf("%s", BOLD_WHITE);
 
         if (fgets(input, sizeof(input), stdin)) {
             choice = atoi(input);
