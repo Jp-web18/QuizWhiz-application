@@ -13,13 +13,20 @@ retry_input:
 
     d = opendir("quizzes");
     if (d) {
-        printf("%sAvailable Quizzes:%s\n\n", COLOR_YELLOW, COLOR_RESET);
+
+        // printf("%sAvailable Quizzes:%s\n\n", COLOR_YELLOW, COLOR_RESET);
         
+        printf("%s----------------------------------------------------------%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+        printf("%s                          QUIZ\n", COLOR_YELLOW);
+        printf("%s----------------------------------------------------------%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+        printf("\n");
+
         while ((dir = readdir(d)) != NULL) {
             if (strstr(dir->d_name, ".quiz")) {
-                printf("%d. %s\n", ++quiz_count, dir->d_name);
+            quiz_count++;
             }
         }
+        printf("%sThere are %s%d%s quizzes available.%s\n\n", COLOR_GREEN, COLOR_WHITE, quiz_count, COLOR_GREEN, COLOR_RESET);
         closedir(d);
     }
 
@@ -35,8 +42,12 @@ retry_input:
 
     char input[10];
     int choice;
-    printf("\n%s[1]%s %sTake a quiz%s\n", COLOR_YELLOW, COLOR_RESET, COLOR_CYAN, COLOR_RESET);
-    printf("%s[2]%s %sBack to main menu%s\n", COLOR_YELLOW, COLOR_RESET, COLOR_LIGHT_PURPLE, COLOR_RESET);
+    // printf("\n%s[1]%s %sTake a quiz%s\n", COLOR_YELLOW, COLOR_RESET, COLOR_CYAN, COLOR_RESET);
+    // printf("%s[2]%s %sBack to main menu%s\n", COLOR_YELLOW, COLOR_RESET, COLOR_LIGHT_PURPLE, COLOR_RESET);
+    printf("%s[1] %sTake a quiz%s\t\t\t%s[2] Back to main menu%s\n\n",
+        COLOR_YELLOW, COLOR_WHITE, COLOR_RESET,
+        COLOR_LIGHT_PURPLE, COLOR_RESET);
+    printf("%s==========================================================%s\n\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
     printf("%sEnter your choice:%s ", COLOR_CYAN, COLOR_RESET);
 
     if (fgets(input, sizeof(input), stdin) == NULL || input[0] == '\n') {

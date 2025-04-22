@@ -57,6 +57,7 @@ int main() {
     int choice;
     int running = 1; 
     int first_time = 1; // Flag to check if it's the first time
+     
 
     while (running) {
         system(CLEAR);

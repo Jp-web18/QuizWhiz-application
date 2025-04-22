@@ -34,7 +34,12 @@ int login() {
         return 0;
     }
 
-    printf("%student Data%s\n\n", COLOR_YELLOW, COLOR_RESET);
+    // printf("%student Data%s\n\n", COLOR_YELLOW, COLOR_RESET);
+    printf("%s----------------------------------------------------------%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+    printf("%s                     Students Data\n", COLOR_YELLOW);
+    printf("%s----------------------------------------------------------%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+    printf("\n");
+
     while (attempts < MAX_LOGIN_ATTEMPTS) {
         printf("Enter your PIN: ");
         if (fgets(input_pin, MAX_PIN_LENGTH, stdin) != NULL) {
@@ -108,8 +113,14 @@ void view_student_data() {
     }
 
     while (attempts < MAX_LOGIN_ATTEMPTS) {
-        printf("%sStudent Data%s\n\n", COLOR_YELLOW, COLOR_RESET);
-        printf("Enter PIN to view student data: ");
+        // printf("%sStudent Data%s\n\n", COLOR_YELLOW, COLOR_RESET);
+        printf("%s----------------------------------------------------------%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+        printf("%s                     Students Data\n", COLOR_YELLOW);
+        printf("%s----------------------------------------------------------%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+        printf("\n");
+
+        // printf("Enter PIN to view student data: ");
+        printf("%sEnter PIN code: %s", COLOR_CYAN, COLOR_WHITE);
         if (fgets(entered_pin, MAX_PIN_LENGTH, stdin) != NULL) {
             size_t len = strlen(entered_pin);
             if (len > 0 && entered_pin[len - 1] == '\n') {
@@ -221,6 +232,7 @@ void view_student_data() {
         fclose(fp);
     }
 
-    printf("\nPress Enter to go back to the main menu...\n");
+    printf("\n\n%sPress Enter to go back to the main menu%s...\n", COLOR_GREEN, COLOR_RESET);
+    printf("%s------------------------------------------------%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
     getchar();
 }
