@@ -237,7 +237,11 @@ void take_quiz() {
     } else {
         int confirmed = 0;
         while (1) {
-            printf("Are you finished answering the quiz? %s[1] Yes%s %s[2] No:%s ", COLOR_YELLOW, COLOR_RESET, COLOR_YELLOW, COLOR_RESET);
+            printf("Are you finished answering the quiz?\n");
+            printf("%s[1] Yes%s\n", COLOR_YELLOW, COLOR_RESET);
+            printf("%s[2] Review Answers%s\n", COLOR_YELLOW, COLOR_RESET);
+            printf("%sEnter your choice:%s ", COLOR_CYAN, COLOR_RESET);
+
             if (!fgets(input, sizeof(input), stdin) || input[0] == '\n') {
                 printf("%sInvalid input.%s\n", COLOR_RED, COLOR_RESET);
                 continue;
@@ -246,8 +250,40 @@ void take_quiz() {
             char *endptr;
             confirmed = strtol(input, &endptr, 10);
             if (*endptr != '\n' || (confirmed != 1 && confirmed != 2)) {
-                printf("%sPlease enter 1 for Yes or 2 for No.%s\n", COLOR_RED, COLOR_RESET);
+                printf("%sPlease enter 1 for Yes or 2 to Review Answers.%s\n", COLOR_RED, COLOR_RESET);
                 continue;
+            }
+
+            if (confirmed == 2) {
+                printf("\n%sReview your answers:%s\n", COLOR_YELLOW, COLOR_RESET);
+                while (1) {
+                    printf("Enter the question number you want to change (or 0 to finish): ");
+                    if (!fgets(input, sizeof(input), stdin) || input[0] == '\n') {
+                        printf("%sInvalid input.%s\n", COLOR_RED, COLOR_RESET);
+                        continue;
+                    }
+
+                    int question_number = strtol(input, &endptr, 10);
+                    if (*endptr != '\n' || question_number < 0 || question_number > items) {
+                        printf("%sPlease enter a valid question number (1-%d) or 0 to finish.%s\n", COLOR_RED, items, COLOR_RESET);
+                        continue;
+                    }
+
+                    if (question_number == 0) break;
+
+                    printf("Current answer for Question #%d: %c\n", question_number, user_answers[question_number - 1]);
+                    printf("Enter new answer: ");
+                    char ans_input[4];
+                    if (fgets(ans_input, sizeof(ans_input), stdin)) {
+                        ans_input[strcspn(ans_input, "\n")] = '\0'; // Remove newline
+                        if (strlen(ans_input) == 1) {
+                            user_answers[question_number - 1] = ans_input[0]; // Update answer
+                        } else {
+                            printf("%sInvalid input. Answer must be a single character.%s\n", COLOR_RED, COLOR_RESET);
+                        }
+                    }
+                }
+                continue; // Return to the confirmation prompt
             }
 
             break;

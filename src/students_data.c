@@ -188,13 +188,13 @@ void view_student_data() {
         }
     }
 
-    printf("%s%-20s%s %s%-20s%s %s%-10s%s %-10s %s%-15s%s\n", 
+    printf("%s%-30s%s   %s%-15s%s   %s%-20s%s   %-10s   %s%-10s%s\n", 
            COLOR_YELLOW, "Student Name", COLOR_RESET, 
+           COLOR_GREEN, "Section", COLOR_RESET, 
            COLOR_MAGENTA, "Quiz Name", COLOR_RESET, 
-           COLOR_BLUE, "Score", COLOR_RESET, 
            "Date", 
-           COLOR_GREEN, "Section", COLOR_RESET);
-    printf("-------------------- -------------------- ---------- ---------- ---------------\n");
+           COLOR_BLUE, "Score", COLOR_RESET);
+    printf("------------------------------   ---------------   --------------------   ----------   ----------\n");
 
     for (int i = 0; i < record_count; i++) {
         FILE *fp = fopen(records[i].filepath, "r");
@@ -217,7 +217,7 @@ void view_student_data() {
         sscanf(records[i].filepath, "records/%[^_]", quiz);
         snprintf(score_str, sizeof(score_str), "%d/%d", score_val, total_items);
 
-        printf("%-20s %-20s %-10s %-10s %-15s\n", name, quiz, score_str, file_date, section);
+        printf("%-30s   %-15s   %-20s   %-10s   %-10s\n", name, section, quiz, file_date, score_str);
         fclose(fp);
     }
 
