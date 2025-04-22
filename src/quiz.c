@@ -26,7 +26,7 @@ retry_input:
             quiz_count++;
             }
         }
-        printf("%sThere are %s%d%s quizzes available.%s\n\n", COLOR_GREEN, COLOR_WHITE, quiz_count, COLOR_GREEN, COLOR_RESET);
+        printf("%sTotal of available quizzes:%s\t%d\n\n", COLOR_GREEN, COLOR_RESET, quiz_count);
         closedir(d);
     }
 
@@ -91,7 +91,7 @@ void take_quiz() {
         return;
     }
 
-    printf("%sAvailable Quizzes:%s\n\n", COLOR_YELLOW, COLOR_RESET);
+    printf("\n%sAvailable Quizzes:%s\n\n", COLOR_YELLOW, COLOR_RESET);
     while ((dir = readdir(d)) != NULL) {
         if (strstr(dir->d_name, ".quiz")) {
             printf("[%d] %s\n", ++quiz_count, dir->d_name);
@@ -172,26 +172,26 @@ void take_quiz() {
     char student_name[100], section[20], pc_number[10], submission_date[11];
 
     while (1) {
-        printf("%sEnter your name:%s ", COLOR_CYAN, COLOR_RESET);
+        printf("%sEnter your name:%s\t", COLOR_CYAN, COLOR_RESET);
         fgets(student_name, sizeof(student_name), stdin);
         student_name[strcspn(student_name, "\n")] = '\0';
 
-        printf("%sEnter your section code:%s ", COLOR_CYAN, COLOR_RESET);
+        printf("%sEnter your section code:%s\t", COLOR_CYAN, COLOR_RESET);
         fgets(section, sizeof(section), stdin);
         section[strcspn(section, "\n")] = '\0';
 
-        printf("%sEnter your PC number:%s ", COLOR_CYAN, COLOR_RESET);
+        printf("%sEnter your PC number:%s\t", COLOR_CYAN, COLOR_RESET);
         fgets(pc_number, sizeof(pc_number), stdin);
         pc_number[strcspn(pc_number, "\n")] = '\0';
 
         printf("\n%sPlease confirm your information:%s\n", COLOR_YELLOW, COLOR_RESET);
-        printf("%sName:%s %s\n", COLOR_CYAN, COLOR_RESET, student_name);
-        printf("%sSection:%s %s\n", COLOR_CYAN, COLOR_RESET, section);
-        printf("%sPC Number:%s %s\n", COLOR_CYAN, COLOR_RESET, pc_number);
+        printf("%sName:%s\t%s\n", COLOR_CYAN, COLOR_RESET, student_name);
+        printf("%sSection:%s\t%s\n", COLOR_CYAN, COLOR_RESET, section);
+        printf("%sPC Number:%s\t%s\n", COLOR_CYAN, COLOR_RESET, pc_number);
         printf("\n%sIs this information correct?%s\n", COLOR_YELLOW, COLOR_RESET);
         printf("%s[1] Yes%s\n", COLOR_GREEN, COLOR_RESET);
         printf("%s[2] No%s\n", COLOR_RED, COLOR_RESET);
-        printf("%sEnter your choice:%s ", COLOR_CYAN, COLOR_RESET);
+        printf("%sEnter your choice:%s\t", COLOR_CYAN, COLOR_RESET);
 
         if (fgets(input, sizeof(input), stdin)) {
             int choice = atoi(input);
@@ -226,7 +226,7 @@ void take_quiz() {
             break;
         }
 
-        printf("Question #%d answer: ", i + 1);
+        printf("Question #%d answer:\t", i + 1);
         char ans_input[4];
         if (fgets(ans_input, sizeof(ans_input), stdin)) {
             ans_input[strcspn(ans_input, "\n")] = '\0'; // Remove newline
@@ -251,7 +251,7 @@ void take_quiz() {
             printf("Are you finished answering the quiz?\n");
             printf("%s[1] Yes%s\n", COLOR_YELLOW, COLOR_RESET);
             printf("%s[2] Review Answers%s\n", COLOR_YELLOW, COLOR_RESET);
-            printf("%sEnter your choice:%s ", COLOR_CYAN, COLOR_RESET);
+            printf("%sEnter your choice:%s\t", COLOR_CYAN, COLOR_RESET);
 
             if (!fgets(input, sizeof(input), stdin) || input[0] == '\n') {
                 printf("%sInvalid input.%s\n", COLOR_RED, COLOR_RESET);
@@ -325,7 +325,11 @@ void take_quiz() {
     fprintf(rec, "Answers: %s\n", user_answers);
     fprintf(rec, "Correct: %s\n", correct_answers);
     fclose(rec);
-    chmod(record_file, 0444);
+#ifdef _WIN32
+    _chmod(record_file, _S_IREAD); // Set file to read-only on Windows
+#else
+    chmod(record_file, 0444); // Set file to read-only on Unix-based systems
+#endif
 
     printf("%sQuiz submitted. Score:%s %d/%d (%.2f%%) on %s\n", COLOR_GREEN, COLOR_RESET, score, items, percentage, submission_date);
     printf("\n%sPress ENTER to return to the main menu...%s", COLOR_CYAN, COLOR_RESET);

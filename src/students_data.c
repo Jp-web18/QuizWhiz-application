@@ -239,6 +239,65 @@ void view_student_data() {
         fclose(fp);
     }
 
+    printf("\n%sWould you like to view detailed information for a specific student? (y/n): %s", COLOR_CYAN, COLOR_WHITE);
+    char choice;
+    if (scanf(" %c", &choice) == 1 && (choice == 'y' || choice == 'Y')) {
+        getchar(); // Consume newline left by scanf
+        printf("\n%sEnter the name of the student: %s", COLOR_CYAN, COLOR_WHITE);
+        char student_name[100];
+        if (fgets(student_name, sizeof(student_name), stdin) != NULL) {
+            size_t len = strlen(student_name);
+            if (len > 0 && student_name[len - 1] == '\n') {
+                student_name[len - 1] = '\0';
+            }
+
+            int found = 0;
+            for (int i = 0; i < record_count; i++) {
+                FILE *fp = fopen(records[i].filepath, "r");
+                if (!fp) continue;
+
+                char line[100];
+                char name[100] = "";
+                if (fgets(line, sizeof(line), fp)) sscanf(line, "Name: %99[^\n]", name);
+
+                if (strcmp(name, student_name) == 0) {
+                    found = 1;
+                    printf("\n%sDetailed Information for %s:%s\n", COLOR_YELLOW, name, COLOR_RESET);
+                    printf("%s----------------------------------------------------------%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+
+                    rewind(fp); // Reset file pointer to read all details
+                    while (fgets(line, sizeof(line), fp)) {
+                        char key[50], value[100];
+                        if (sscanf(line, "%49[^:]: %99[^\n]", key, value) == 2) {
+                            if (strcmp(key, "Score") == 0) {
+                                char score[20], date[20];
+                                if (sscanf(value, "%19s %19s", score, date) == 2) {
+                                    printf("%s%-20s: %s%s\n", COLOR_CYAN, "Score", COLOR_WHITE, score);
+                                    printf("%s%-20s: %s%s\n", COLOR_CYAN, "Date", COLOR_WHITE, date);
+                                } else {
+                                    printf("%s%-20s: %s%s\n", COLOR_CYAN, key, COLOR_WHITE, value);
+                                }
+                            } else {
+                                printf("%s%-20s: %s%s\n", COLOR_CYAN, key, COLOR_WHITE, value);
+                            }
+                        }
+                    }
+
+                    fclose(fp);
+                    break;
+                }
+
+                fclose(fp);
+            }
+
+            if (!found) {
+                printf("%sNo records found for the student: %s%s\n", COLOR_RED, student_name, COLOR_RESET);
+            }
+        } else {
+            printf("%sInvalid input. Returning to main menu.%s\n", COLOR_RED, COLOR_RESET);
+        }
+    }
+
     printf("\n\n%sPress Enter to go back to the main menu%s...\n", COLOR_GREEN, COLOR_RESET);
     printf("%s------------------------------------------------%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
     getchar();
