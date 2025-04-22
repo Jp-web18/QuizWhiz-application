@@ -199,6 +199,13 @@ void view_student_data() {
         }
     }
 
+    printf("%s-------------------------------------------------------------------------------------------------%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+    printf("%sSTUDENT DATA\tSTUDENT DATA\tSTUDENT DATA\tSTUDENT DATA\tSTUDENT DATA\tSTUDENT DATA\t\n", COLOR_YELLOW);
+    printf("%s-------------------------------------------------------------------------------------------------%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+    printf("\n");
+
+    printf("%sTotal Students Who Took the Quiz:\t%s%d%s\n\n", COLOR_CYAN, COLOR_WHITE, record_count, COLOR_RESET);
+
     printf("%s%-30s%s   %s%-15s%s   %s%-20s%s   %-10s   %s%-10s%s\n", 
            COLOR_YELLOW, "Student Name", COLOR_RESET, 
            COLOR_GREEN, "Section", COLOR_RESET, 
