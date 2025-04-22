@@ -202,6 +202,13 @@ void take_quiz() {
         printf("%sInvalid input. Please try again.%s\n", COLOR_RED, COLOR_RESET);
     }
 
+    // Ensure the "records" folder exists
+#ifdef _WIN32
+    _mkdir("records"); // Create directory on Windows
+#else
+    mkdir("records", 0755); // Create directory on Unix-based systems
+#endif
+
     char record_file[128];
     snprintf(record_file, sizeof(record_file), "records/%s_%s.rec", selected_quiz, student_name);
 
@@ -320,10 +327,27 @@ void take_quiz() {
     fprintf(rec, "Name: %s\n", student_name);
     fprintf(rec, "Section: %s\n", section);
     fprintf(rec, "PC: %s\n", pc_number);
-    fprintf(rec, "Score: %d/%d %s\n", score, items, submission_date);
+    fprintf(rec, "Score: %d/%d\n", score, items);
+    fprintf(rec, "Date: %s\n", submission_date);
     fprintf(rec, "Percent: %.2f%%\n", percentage);
-    fprintf(rec, "Answers: %s\n", user_answers);
-    fprintf(rec, "Correct: %s\n", correct_answers);
+    fprintf(rec, "Answers:\n");
+    for (int i = 0; i < items; i++) {
+        fprintf(rec, "%d. %c (Correct: %c)\n", i + 1, user_answers[i], correct_answers[i]);
+    }
+
+
+    // fprintf(rec, "----------------------------------------------------------\n");
+    // fprintf(rec, "Detailed Information\n");
+    // fprintf(rec, "----------------------------------------------------------\n");
+    // fprintf(rec, "Name                : %s\n", student_name);
+    // fprintf(rec, "Section             : %s\n", section);
+    // fprintf(rec, "PC                  : %s\n", pc_number);
+    // fprintf(rec, "Score               : %d/%d\n", score, items);
+    // fprintf(rec, "Date                : %s\n", submission_date);
+    // fprintf(rec, "Percent             : %.2f%%\n", percentage);
+    // fprintf(rec, "Answers             :\n");
+
+
     fclose(rec);
 #ifdef _WIN32
     _chmod(record_file, _S_IREAD); // Set file to read-only on Windows
