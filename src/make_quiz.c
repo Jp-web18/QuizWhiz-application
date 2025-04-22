@@ -14,13 +14,36 @@ void make_quiz_menu() {
 
     while (1) {
         system(CLEAR);
-        printf("%sMake a quiz%s\n\n%s", COLOR_YELLOW, COLOR_RESET, COLOR_BLUE);
-        printf("%s[1] %sMake a Quiz%s\n", COLOR_YELLOW, COLOR_CYAN, COLOR_RESET);
-        printf("%s[2] %sEdit Existing Quizzes%s\n", COLOR_YELLOW, COLOR_CYAN, COLOR_RESET);
-        printf("%s[3] %sChange PIN%s\n", COLOR_YELLOW, COLOR_CYAN, COLOR_RESET);
-        printf("%s[4] %sBack to Main Menu%s\n\n", COLOR_YELLOW, COLOR_LIGHT_PURPLE, COLOR_RESET);
-        printf("%sEnter your choice:%s ", COLOR_CYAN, COLOR_RESET);
-        printf("%s", BOLD_WHITE);
+        // printf("%sMake a quiz%s\n\n%s", COLOR_YELLOW, COLOR_RESET, COLOR_BLUE);
+        // printf("%s[1] %sMake a Quiz%s\n", COLOR_YELLOW, COLOR_CYAN, COLOR_RESET);
+        // printf("%s[2] %sEdit Existing Quizzes%s\n", COLOR_YELLOW, COLOR_CYAN, COLOR_RESET);
+        // printf("%s[3] %sChange PIN%s\n", COLOR_YELLOW, COLOR_CYAN, COLOR_RESET);
+        // printf("%s[4] %sBack to Main Menu%s\n\n", COLOR_YELLOW, COLOR_LIGHT_PURPLE, COLOR_RESET);
+        // printf("%sEnter your choice:%s ", COLOR_CYAN, COLOR_RESET);
+        // printf("%s", BOLD_WHITE);
+
+        // printf("%s==========================================================%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+        printf("%s----------------------------------------------------------%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+        printf("%s                     MAKE A QUIZ MENU\n", COLOR_YELLOW);
+        printf("%s----------------------------------------------------------%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+        // printf("%s==========================================================%s\n\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+        // printf("%s=====================================\n", COLOR_MAGENTA);
+        printf("\n");
+        printf("%s[1] %sMake a Quiz%s\t\t\t%s[3] %sChange PIN%s\n\n",
+            COLOR_YELLOW, COLOR_WHITE, COLOR_RESET,
+            COLOR_YELLOW, COLOR_WHITE, COLOR_RESET);
+        printf("%s[2] %sEdit Existing Quizzes%s\t%s[4] Back to Main Menu%s\n",
+            COLOR_YELLOW, COLOR_WHITE, COLOR_RESET,
+            COLOR_LIGHT_PURPLE, COLOR_RESET);
+
+        
+        // printf("%s[1]%s %sMake a Quiz%s         ", COLOR_YELLOW, COLOR_RESET, COLOR_CYAN, COLOR_RESET);
+        // printf("%s[3]%s %sChange PIN%s\n", COLOR_YELLOW, COLOR_RESET, COLOR_CYAN, COLOR_RESET);
+        // printf("%s[2]%s %sEdit Existing Quizzes%s  ", COLOR_YELLOW, COLOR_RESET, COLOR_CYAN, COLOR_RESET);
+        // printf("%s[4]%s %sBack to Main Menu%s\n", COLOR_YELLOW, COLOR_RESET, COLOR_LIGHT_PURPLE, COLOR_RESET);
+        printf("\n");
+        printf("%s==========================================================%s\n\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+        printf("%sEnter your choice:%s %s", COLOR_CYAN, COLOR_RESET, BOLD_WHITE);
 
         if (fgets(input, sizeof(input), stdin)) {
             choice = atoi(input);
