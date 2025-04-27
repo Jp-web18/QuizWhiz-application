@@ -220,31 +220,30 @@ void view_student_data() {
     for (int i = 0; i < record_count; i++) {
         FILE *fp = fopen(records[i].filepath, "r");
         if (!fp) continue;
- 
+
         char line[100];
-        char name[100] = "";
-        char section[50] = "";
-        char pc[50] = "";
-        char score_str[20] = "";
-        char file_date[20] = ""; // Increase size to handle longer date formats
-        char quiz[50] = "";
-        int score_val, total_items;
- 
-        if (fgets(line, sizeof(line), fp)) sscanf(line, "Name: %99[^\n]", name);
-        if (fgets(line, sizeof(line), fp)) sscanf(line, "Section: %49[^\n]", section);
-        if (fgets(line, sizeof(line), fp)) sscanf(line, "PC: %49[^\n]", pc);
-        if (fgets(line, sizeof(line), fp)) sscanf(line, "Score: %d/%d", &score_val, &total_items);
-        if (fgets(line, sizeof(line), fp)) sscanf(line, "Date: %19[^\n]", file_date); // Parse the Date field
- 
+        char name[100] = "N/A"; // Default to "N/A" if missing
+        char section[50] = "N/A"; // Default to "N/A" if missing
+        char pc[50] = "N/A"; // Default to "N/A" if missing
+        char score_str[20] = "0/0"; // Default to "0/0" if missing
+        char file_date[20] = "N/A"; // Default to "N/A" if missing
+        char quiz[50] = "N/A"; // Default to "N/A" if missing
+        int score_val = 0, total_items = 0;
+
+        // Parse each line of the record file
+        if (fgets(line, sizeof(line), fp)) sscanf(line, "Name    : %99[^\n]", name);
+        if (fgets(line, sizeof(line), fp)) sscanf(line, "Section : %49[^\n]", section);
+        if (fgets(line, sizeof(line), fp)) sscanf(line, "PC      : %49[^\n]", pc);
+        if (fgets(line, sizeof(line), fp)) sscanf(line, "Score   : %d/%d", &score_val, &total_items);
+        if (fgets(line, sizeof(line), fp)) sscanf(line, "Date    : %19[^\n]", file_date);
+
         sscanf(records[i].filepath, "records/%[^_]", quiz);
         snprintf(score_str, sizeof(score_str), "%d/%d", score_val, total_items);
- 
+
+        // Display the parsed data
         printf("%-4d  %-30s  %-12s  %-18s  %-15s  %-8s\n", i + 1, name, section, quiz, file_date, score_str);
         fclose(fp);
     }
-
-    // printf("\n%sWould you like to view detailed information for a specific student? (y/n): %s", COLOR_CYAN, COLOR_WHITE);
-    // char choice;
 
     char input_buffer[100];
 
@@ -283,7 +282,7 @@ void view_student_data() {
                 char student_name[100] = "N/A"; // Default to "N/A" if missing
                 char line[100]; // Declare the line variable
                 rewind(fp); // Reset file pointer to read the name
-                if (fgets(line, sizeof(line), fp)) sscanf(line, "Name: %99[^\n]", student_name);
+                if (fgets(line, sizeof(line), fp)) sscanf(line, "Name    : %[^\n]", student_name); // Adjusted format string
 
                 printf("\n%sDetailed Information for Student #%d (%s):%s\n", COLOR_YELLOW, student_number, student_name, COLOR_RESET);
                 printf("%s----------------------------------------------------------%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
@@ -292,7 +291,7 @@ void view_student_data() {
                 while (fgets(line, sizeof(line), fp)) {
                     char key[50], value[100];
 
-                    if (strchr(line, ':') != NULL && sscanf(line, "%49[^:]: %99[^\n]", key, value) == 2) {
+                    if (strchr(line, ':') != NULL && sscanf(line, "%49[^:]: %[^\n]", key, value) == 2) {
                         if (strcmp(key, "Score") == 0) {
                             char score[20], date[20];
                             if (sscanf(value, "%19s %19s", score, date) == 2) {

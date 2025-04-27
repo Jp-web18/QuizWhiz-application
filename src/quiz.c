@@ -172,26 +172,26 @@ void take_quiz() {
     char student_name[100], section[20], pc_number[10], submission_date[11];
 
     while (1) {
-        printf("%sEnter your name:%s\t", COLOR_CYAN, COLOR_RESET);
+        printf("%sEnter your name         : %s", COLOR_CYAN, COLOR_RESET);
         fgets(student_name, sizeof(student_name), stdin);
         student_name[strcspn(student_name, "\n")] = '\0';
 
-        printf("%sEnter your section code:%s\t", COLOR_CYAN, COLOR_RESET);
+        printf("%sEnter your section code : %s", COLOR_CYAN, COLOR_RESET);
         fgets(section, sizeof(section), stdin);
         section[strcspn(section, "\n")] = '\0';
 
-        printf("%sEnter your PC number:%s\t", COLOR_CYAN, COLOR_RESET);
+        printf("%sEnter your PC number    : %s", COLOR_CYAN, COLOR_RESET);
         fgets(pc_number, sizeof(pc_number), stdin);
         pc_number[strcspn(pc_number, "\n")] = '\0';
 
         printf("\n%sPlease confirm your information:%s\n", COLOR_YELLOW, COLOR_RESET);
-        printf("%sName:%s\t%s\n", COLOR_CYAN, COLOR_RESET, student_name);
-        printf("%sSection:%s\t%s\n", COLOR_CYAN, COLOR_RESET, section);
-        printf("%sPC Number:%s\t%s\n", COLOR_CYAN, COLOR_RESET, pc_number);
+        printf("%-23s : %s%s\n", "Name", COLOR_CYAN, student_name);
+        printf("%-23s : %s%s\n", "Section", COLOR_CYAN, section);
+        printf("%-23s : %s%s\n", "PC Number", COLOR_CYAN, pc_number);
         printf("\n%sIs this information correct?%s\n", COLOR_YELLOW, COLOR_RESET);
         printf("%s[1] Yes%s\n", COLOR_GREEN, COLOR_RESET);
         printf("%s[2] No%s\n", COLOR_RED, COLOR_RESET);
-        printf("%sEnter your choice:%s\t", COLOR_CYAN, COLOR_RESET);
+        printf("%sEnter your choice:       %s", COLOR_CYAN, COLOR_RESET);
 
         if (fgets(input, sizeof(input), stdin)) {
             int choice = atoi(input);
@@ -324,31 +324,18 @@ void take_quiz() {
     strftime(submission_date, sizeof(submission_date), "%m/%d/%Y", &tm);
 
     FILE *rec = fopen(record_file, "w");
-    fprintf(rec, "Name: %s\n", student_name);
-    fprintf(rec, "Section: %s\n", section);
-    fprintf(rec, "PC: %s\n", pc_number);
-    fprintf(rec, "Score: %d/%d\n", score, items);
-    fprintf(rec, "Date: %s\n", submission_date);
-    fprintf(rec, "Percent: %.2f%%\n", percentage);
-    fprintf(rec, "Answers:\n");
+    fprintf(rec, "Name    : %s\n", student_name);
+    fprintf(rec, "Section : %s\n", section);
+    fprintf(rec, "PC      : %s\n", pc_number);
+    fprintf(rec, "Score   : %d/%d\n", score, items);
+    fprintf(rec, "Date    : %s\n", submission_date);
+    fprintf(rec, "Percent : %.2f%%\n", percentage);
+    fprintf(rec, "Answers :\n");
     for (int i = 0; i < items; i++) {
-        fprintf(rec, "%d. %c (Correct: %c)\n", i + 1, user_answers[i], correct_answers[i]);
+        fprintf(rec, "  %2d. %c (Correct: %c)\n", i + 1, user_answers[i], correct_answers[i]);
     }
-
-
-    // fprintf(rec, "----------------------------------------------------------\n");
-    // fprintf(rec, "Detailed Information\n");
-    // fprintf(rec, "----------------------------------------------------------\n");
-    // fprintf(rec, "Name                : %s\n", student_name);
-    // fprintf(rec, "Section             : %s\n", section);
-    // fprintf(rec, "PC                  : %s\n", pc_number);
-    // fprintf(rec, "Score               : %d/%d\n", score, items);
-    // fprintf(rec, "Date                : %s\n", submission_date);
-    // fprintf(rec, "Percent             : %.2f%%\n", percentage);
-    // fprintf(rec, "Answers             :\n");
-
-
     fclose(rec);
+
 #ifdef _WIN32
     _chmod(record_file, _S_IREAD); // Set file to read-only on Windows
 #else
